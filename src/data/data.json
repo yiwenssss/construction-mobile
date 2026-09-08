@@ -1,0 +1,36 @@
+{
+  "incidents": [
+    {
+      "id": "inc-001",
+      "timestamp": "2026-09-08T09:22:00",
+      "type": "Near Miss",
+      "severity": "Low",
+      "note": "Loose scaffolding board on level 2",
+      "photoUrl": "",
+      "reportedBy": "J. Alvarez",
+      "syncStatus": "synced"
+    },
+    {
+      "id": "inc-002",
+      "timestamp": "2026-09-08T08:47:00",
+      "type": "Hazard",
+      "severity": "High",
+      "note": "Unmarked wet surface near material lift",
+      "photoUrl": "",
+      "reportedBy": "M. Chen",
+      "syncStatus": "synced"
+    }
+  ],
+  "crew": [
+    { "name": "J. Alvarez", "role": "Electrician", "checkedIn": true, "checkInTime": "07:02" },
+    { "name": "M. Chen", "role": "Site laborer", "checkedIn": true, "checkInTime": "06:58" },
+    { "name": "R. Patel", "role": "Carpenter", "checkedIn": true, "checkInTime": "07:11" },
+    { "name": "S. Williams", "role": "Equipment operator", "checkedIn": false, "checkInTime": "" }
+  ],
+  "safetyChecklist": [
+    { "item": "Hard hats worn on site", "completed": true },
+    { "item": "Fire extinguishers accessible", "completed": false },
+    { "item": "Walkways clear of materials", "completed": true },
+    { "item": "Emergency exits unobstructed", "completed": true }
+  ]
+}
