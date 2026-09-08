@@ -6,6 +6,7 @@ type Severity = 'Low' | 'Medium' | 'High' | 'Critical'
 
 const reportOpen = ref(false)
 const savedNotice = ref(false)
+const glareMode = ref(false)
 const selectedType = ref('Hazard')
 const selectedSeverity = ref<Severity>('Medium')
 const note = ref('')
@@ -40,10 +41,10 @@ const formatTime = (timestamp: string) => new Date(timestamp).toLocaleTimeString
 <template>
   <v-app>
     <v-main>
-      <div class="app-shell">
+      <div class="app-shell" :class="{ 'glare-mode': glareMode }">
         <header class="topbar">
           <div class="brand-lockup"><div class="brand-mark"><v-icon icon="mdi-hard-hat" size="24" /></div><div><p class="eyebrow">Riverside build site</p><h1>Site safety</h1></div></div>
-          <div class="connection-pill"><span class="connection-dot" /> Connected</div>
+          <div class="header-actions"><div class="connection-pill"><span class="connection-dot" /> Connected</div><button class="mode-switch" type="button" :aria-pressed="glareMode" @click="glareMode = !glareMode"><v-icon :icon="glareMode ? 'mdi-white-balance-sunny' : 'mdi-contrast-circle'" size="18" /><span>{{ glareMode ? 'Glare' : 'Normal' }}</span></button></div>
         </header>
 
         <main class="content">
@@ -64,7 +65,7 @@ const formatTime = (timestamp: string) => new Date(timestamp).toLocaleTimeString
 
         <nav class="bottom-nav" aria-label="Primary navigation"><button class="active" type="button"><v-icon icon="mdi-view-dashboard-outline" /><span>Today</span></button><button type="button" @click="openReport"><v-icon icon="mdi-plus-circle-outline" /><span>Report</span></button><button type="button"><v-icon icon="mdi-account-group-outline" /><span>Crew</span></button><button type="button"><v-icon icon="mdi-menu" /><span>More</span></button></nav>
 
-        <v-dialog v-model="reportOpen" fullscreen transition="dialog-bottom-transition" scrim="rgba(16, 35, 38, .64)"><div class="report-sheet"><div class="sheet-header"><button type="button" aria-label="Close report" class="icon-button" @click="reportOpen = false"><v-icon icon="mdi-close" /></button><div><p class="eyebrow">Quick capture</p><h2>Report an incident</h2></div><span class="step-count">1 of 1</span></div><div class="capture-area"><v-icon icon="mdi-camera-outline" size="44" /><strong>Add a site photo</strong><span>Make the issue easy to find later.</span><button type="button" class="photo-button"><v-icon icon="mdi-camera" /> Take photo</button></div><div class="sheet-fields"><label class="field-label">What happened?</label><div class="choice-grid type-grid"><button v-for="type in ['Hazard', 'Near Miss', 'Injury', 'Property Damage', 'Equipment Failure']" :key="type" type="button" :class="{ selected: selectedType === type }" @click="selectedType = type">{{ type }}</button></div><label class="field-label">How serious is it?</label><div class="choice-grid severity-grid"><button v-for="severity in ['Low', 'Medium', 'High', 'Critical'] as Severity[]" :key="severity" type="button" :class="[severity.toLowerCase(), { selected: selectedSeverity === severity }]" @click="selectedSeverity = severity">{{ severity }}</button></div><label class="field-label" for="note">Add a short note <span>Optional</span></label><textarea id="note" v-model="note" rows="3" placeholder="What should the next person know?" /></div><div class="sheet-footer"><div class="offline-note"><v-icon icon="mdi-cloud-off-outline" /><span>Saved locally first<br /><small>Will sync when connected</small></span></div><button type="button" class="save-button" @click="saveReport">Save incident <v-icon icon="mdi-arrow-right" /></button></div></div></v-dialog>
+        <v-dialog v-model="reportOpen" fullscreen transition="dialog-bottom-transition" scrim="rgba(16, 35, 38, .64)"><div class="report-sheet" :class="{ 'glare-mode': glareMode }"><div class="sheet-header"><button type="button" aria-label="Close report" class="icon-button" @click="reportOpen = false"><v-icon icon="mdi-close" /></button><div><p class="eyebrow">Quick capture</p><h2>Report an incident</h2></div><span class="step-count">1 of 1</span></div><div class="capture-area"><v-icon icon="mdi-camera-outline" size="44" /><strong>Add a site photo</strong><span>Make the issue easy to find later.</span><button type="button" class="photo-button"><v-icon icon="mdi-camera" /> Take photo</button></div><div class="sheet-fields"><label class="field-label">What happened?</label><div class="choice-grid type-grid"><button v-for="type in ['Hazard', 'Near Miss', 'Injury', 'Property Damage', 'Equipment Failure']" :key="type" type="button" :class="{ selected: selectedType === type }" @click="selectedType = type">{{ type }}</button></div><label class="field-label">How serious is it?</label><div class="choice-grid severity-grid"><button v-for="severity in ['Low', 'Medium', 'High', 'Critical'] as Severity[]" :key="severity" type="button" :class="[severity.toLowerCase(), { selected: selectedSeverity === severity }]" @click="selectedSeverity = severity">{{ severity }}</button></div><label class="field-label" for="note">Add a short note <span>Optional</span></label><textarea id="note" v-model="note" rows="3" placeholder="What should the next person know?" /></div><div class="sheet-footer"><div class="offline-note"><v-icon icon="mdi-cloud-off-outline" /><span>Saved locally first<br /><small>Will sync when connected</small></span></div><button type="button" class="save-button" @click="saveReport">Save incident <v-icon icon="mdi-arrow-right" /></button></div></div></v-dialog>
       </div>
     </v-main>
   </v-app>
